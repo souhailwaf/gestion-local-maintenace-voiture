@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+
+{% block title %}Mes Véhicules{% endblock %}
+
+{% block content %}
+<div class="card">
+    <div class="card-header d-flex justify-content-between align-items-center">
+        <h3>Mes Véhicules</h3>
+        <a href="{% url 'clients:ajouter_vehicule' client.pk %}" class="btn btn-success">Ajouter un véhicule</a>
+    </div>
+    <div class="card-body">
+        {% if vehicules %}
+            <div class="row">
+                {% for vehicule in vehicules %}
+                    <div class="col-md-4 mb-4">
+                        <div class="card">
+                            <div class="card-body">
+                                <h5 class="card-title">{{ vehicule.marque }}</h5>
+                                <p class="card-text">
+                                    <strong>Immatriculation:</strong> {{ vehicule.immatricule }}<br>
+                                    <strong>Date d'ajout:</strong> {{ vehicule.date_creation|date:"d/m/Y" }}
+                                </p>
+                                <a href="{% url 'clients:details_vehicule' client.pk vehicule.pk %}" class="btn btn-primary">Voir les détails</a>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <p class="text-center">Vous n'avez pas encore de véhicule.</p>
+        {% endif %}
+    </div>
+</div>
+{% endblock %} 

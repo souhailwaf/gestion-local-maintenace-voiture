@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+
+{% block title %}Détails du Véhicule{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <div class="card">
+            <div class="card-header">
+                <h3>Détails du Véhicule</h3>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        <p><strong>Marque:</strong> {{ vehicule.marque }}</p>
+                        <p><strong>Immatriculation:</strong> {{ vehicule.immatricule }}</p>
+                    </div>
+                    <div class="col-md-6">
+                        <p><strong>Date d'ajout:</strong> {{ vehicule.date_creation|date:"d/m/Y" }}</p>
+                        {% if vehicule.derniere_maintenance %}
+                            <p><strong>Dernière maintenance:</strong> {{ vehicule.derniere_maintenance|date:"d/m/Y" }}</p>
+                        {% endif %}
+                    </div>
+                </div>
+                <div class="mt-3">
+                    <a href="{% url 'clients:mes_vehicules' vehicule.client.pk %}" class="btn btn-secondary">Retour à la liste</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %} 

@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+
+{% block title %}Mes Rendez-vous{% endblock %}
+
+{% block content %}
+<div class="card">
+    <div class="card-header d-flex justify-content-between align-items-center">
+        <h3>Mes Rendez-vous</h3>
+        <a href="{% url 'rendez_vous:prendre_rendez_vous' %}" class="btn btn-primary">Prendre un rendez-vous</a>
+    </div>
+    <div class="card-body">
+        {% if rendez_vous %}
+            <div class="table-responsive">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>Date et Heure</th>
+                            <th>Véhicule</th>
+                            <th>Description</th>
+                            <th>Statut</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for rdv in rendez_vous %}
+                            <tr>
+                                <td>{{ rdv.date_heure|date:"d/m/Y H:i" }}</td>
+                                <td>{{ rdv.vehicule }}</td>
+                                <td>{{ rdv.description }}</td>
+                                <td>
+                                    <span class="badge {% if rdv.status == 'confirme' %}bg-success{% elif rdv.status == 'en_attente' %}bg-warning{% else %}bg-danger{% endif %}">
+                                        {{ rdv.get_status_display }}
+                                    </span>
+                                </td>
+                                <td>
+                                    {% if rdv.status == 'en_attente' %}
+                                        <a href="{% url 'rendez_vous:annuler_rendez_vous' rdv.pk %}" class="btn btn-danger btn-sm">Annuler</a>
+                                    {% endif %}
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        {% else %}
+            <p class="text-center">Vous n'avez pas encore de rendez-vous.</p>
+        {% endif %}
+    </div>
+</div>
+{% endblock %} 

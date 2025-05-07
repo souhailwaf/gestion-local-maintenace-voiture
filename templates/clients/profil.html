@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+
+{% block title %}Mon Profil{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-header">
+                <h3>Informations Personnelles</h3>
+            </div>
+            <div class="card-body">
+                <p><strong>Nom:</strong> {{ client.nom }}</p>
+                <p><strong>Prénom:</strong> {{ client.prenom }}</p>
+                <p><strong>Téléphone:</strong> {{ client.telephone }}</p>
+                <p><strong>Email:</strong> {{ client.email }}</p>
+                <a href="{% url 'clients:modifier_profil' client.pk %}" class="btn btn-primary">Modifier le profil</a>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-8">
+        <div class="card">
+            <div class="card-header">
+                <h3>Mes Véhicules</h3>
+            </div>
+            <div class="card-body">
+                {% if vehicules %}
+                    <div class="list-group">
+                        {% for vehicule in vehicules %}
+                            <a href="{% url 'clients:details_vehicule' client.pk vehicule.pk %}" class="list-group-item list-group-item-action">
+                                {{ vehicule.marque }} - {{ vehicule.immatricule }}
+                            </a>
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    <p>Vous n'avez pas encore de véhicule.</p>
+                {% endif %}
+                <a href="{% url 'clients:ajouter_vehicule' client.pk %}" class="btn btn-success mt-3">Ajouter un véhicule</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

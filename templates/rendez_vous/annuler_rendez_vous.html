@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% block title %}Annuler Rendez-vous{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header">
+                <h3>Annuler le Rendez-vous</h3>
+            </div>
+            <div class="card-body">
+                <p>Êtes-vous sûr de vouloir annuler ce rendez-vous du {{ rendez_vous.date_heure|date:"d/m/Y H:i" }} ?</p>
+                <form method="post">
+                    {% csrf_token %}
+                    <div class="d-grid gap-2">
+                        <button type="submit" class="btn btn-danger">Confirmer l'annulation</button>
+                        <a href="{% url 'rendez_vous:mes_rendez_vous' %}" class="btn btn-secondary">Retour</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %} 

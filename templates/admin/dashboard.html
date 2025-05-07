@@ -1,0 +1,131 @@
+{% extends "admin/base_site.html" %}
+{% load i18n static %}
+
+{% block extrastyle %}
+{{ block.super }}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+<style>
+    .dashboard-stats {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 1rem;
+        margin-bottom: 2rem;
+    }
+    .stat-card {
+        background: white;
+        padding: 1.5rem;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+    .stat-card i {
+        font-size: 2rem;
+        color: #417690;
+    }
+    .stat-info h3 {
+        margin: 0;
+        font-size: 1.5rem;
+        color: #417690;
+    }
+    .stat-info p {
+        margin: 0;
+        color: #666;
+    }
+    .recent-activity {
+        background: white;
+        padding: 1.5rem;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+    .recent-activity h2 {
+        margin-top: 0;
+        color: #417690;
+    }
+    .activity-table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+    .activity-table th,
+    .activity-table td {
+        padding: 0.75rem;
+        border-bottom: 1px solid #eee;
+    }
+    .activity-table th {
+        text-align: left;
+        color: #666;
+    }
+    .status-badge {
+        padding: 0.25rem 0.5rem;
+        border-radius: 4px;
+        font-size: 0.875rem;
+    }
+    .status-en_cours { background: #fff3cd; color: #856404; }
+    .status-termine { background: #d4edda; color: #155724; }
+    .status-annule { background: #f8d7da; color: #721c24; }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="dashboard-stats">
+    <div class="stat-card">
+        <div class="stat-info">
+            <h3>{{ total_clients }}</h3>
+            <p>Clients</p>
+        </div>
+        <i class="fas fa-users"></i>
+    </div>
+    <div class="stat-card">
+        <div class="stat-info">
+            <h3>{{ total_vehicules }}</h3>
+            <p>Véhicules</p>
+        </div>
+        <i class="fas fa-car"></i>
+    </div>
+    <div class="stat-card">
+        <div class="stat-info">
+            <h3>{{ reparations_en_cours }}</h3>
+            <p>Réparations en cours</p>
+        </div>
+        <i class="fas fa-wrench"></i>
+    </div>
+    <div class="stat-card">
+        <div class="stat-info">
+            <h3>{{ total_mecaniciens }}</h3>
+            <p>Mécaniciens</p>
+        </div>
+        <i class="fas fa-tools"></i>
+    </div>
+</div>
+
+<div class="recent-activity">
+    <h2>Activité récente</h2>
+    <table class="activity-table">
+        <thead>
+            <tr>
+                <th>Date</th>
+                <th>Client</th>
+                <th>Véhicule</th>
+                <th>Type</th>
+                <th>Statut</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for activity in recent_activities %}
+            <tr>
+                <td>{{ activity.date|date:"d/m/Y H:i" }}</td>
+                <td>{{ activity.client }}</td>
+                <td>{{ activity.vehicule }}</td>
+                <td>{{ activity.type }}</td>
+                <td>
+                    <span class="status-badge status-{{ activity.statut }}">
+                        {{ activity.statut|title }}
+                    </span>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}
